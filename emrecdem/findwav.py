@@ -50,7 +50,7 @@ def findwav(OpenFace_filename, datadirectory):
     audio_filename = filelist[0]
 
     if (os.path.isfile(audio_filename) ==  True):
-        print("Mathing audio file identified")
+        print("Matching audio file identified")
     else:
         print("Warning: Matching audio file not identified")
     return(audio_filename)
