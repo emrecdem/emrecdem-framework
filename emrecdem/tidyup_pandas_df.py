@@ -7,7 +7,8 @@ def OpenFace(openface_features, PID, EXP):
     Tidy up OpenFace features in pandas data.frame to be stored in sqlite
     database:
     - Participant and experiment identifiers are added as columns
-    - Underscores in column names are removed.
+    - Underscores in column names are removed, because sqlite does not like
+        underscores in column names.
     - Only column names with 'AU' in the column name are considered relevant
       features and kept, the rest is removed.
 
@@ -48,7 +49,8 @@ def Librosa(librosa_features, PID, EXP):
     Tidy up Librosa features in pandas data.frame to be stored in sqlite
     database:
     - Participant and experiment identifiers are added as columns
-    - Underscores in column names are removed.
+    - Underscores in column names are removed, because sqlite does not like
+        underscores in column names.
     - Column zrc is renamed as zcrate
     - Only column names 'participant_id','experiment_id','time','pitch',
       'rmse', 'zcrate are kept.
