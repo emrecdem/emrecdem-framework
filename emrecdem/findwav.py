@@ -38,6 +38,7 @@ def findwav(OpenFace_filename, datadirectory):
     """
 
     expected_filename = OpenFace_filename.replace('.csv','.wav').replace('_Cfront','').replace('_Cside','').replace('_C1','')
+    print("Looking for audio file:", expected_filename)
 
     # Find file (inspired by code snippets as available on various forums)
     findCMD = 'find ' + datadirectory + ' -name ' + expected_filename
