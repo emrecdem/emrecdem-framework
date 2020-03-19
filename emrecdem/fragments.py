@@ -165,3 +165,10 @@ def extract_fragment_features_librosa(time_series, start_time, end_time, descrip
     aggregated_features['end_time'] = end_time
     aggregated_features['description'] = description
     return aggregated_features
+
+def extract_annotations_from_signal(df, feature, threshold_value, threshold_duration):
+    threshold_filter = df[feature] > threshold_value
+    first_rows = df.index[threshold_filter & ~ threshold_filter.shift(1).fillna(False)]
+    last_rows = df.index[threshold_filter & ~ threshold_filter.shift(-1).fillna(False)]
+    runs = [(i, j) for i, j in zip(first_rows, last_rows) if j > i + threshold_duration]
+    return runs
