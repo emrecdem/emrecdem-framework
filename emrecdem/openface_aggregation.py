@@ -46,8 +46,8 @@ def aggregate_feature_runs(time_series, columns):
     
     data = {}
     for column_name in columns:
-        threshold_value = 0.5 if column_name.endswith('c') else 2.5
-        threshold_framecount = 50 # TODO: this assumes frame rate is 50 fps, which would make 1 second
+        threshold_value = 0.5 if column_name.endswith('c') else 1.5
+        threshold_framecount = 5 # 0.1 sec TODO: this assumes frame rate is 50 fps
         runs = extract_runs_for_feature(time_series, column_name, threshold_value, threshold_framecount)
         # print(column_name, len(runs))
         
@@ -64,6 +64,13 @@ def aggregate_feature_runs(time_series, columns):
         frequency = len(runs)
         data[readable_column_name(column_name, 'freq')] = frequency
         data[readable_column_name(column_name, 'freq_pmin')] = frequency * 60 / fragment_duration
+        
+        # average value
+        filter_timerange = (time_series['timestamp'] >= start_time) & (time_series['timestamp'] < end_time)
+        fragment = time_series[filter_timerange]
+        mean = fragment[column_name].mean()
+        data[readable_column_name(column_name, 'avg')] = mean
+        
     
     return pd.DataFrame(data, index=[0])
     
