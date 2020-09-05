@@ -68,9 +68,12 @@ def aggregate_feature_runs(time_series, columns):
         # average value
         filter_timerange = (time_series['timestamp'] >= start_time) & (time_series['timestamp'] < end_time)
         fragment = time_series[filter_timerange]
+        
         mean = fragment[column_name].mean()
         data[readable_column_name(column_name, 'avg')] = mean
         
+        std = fragment[column_name].std()
+        data[readable_column_name(column_name, 'std')] = std
     
     return pd.DataFrame(data, index=[0])
     
