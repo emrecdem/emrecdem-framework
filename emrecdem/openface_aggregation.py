@@ -26,20 +26,20 @@ def get_selected_columns(time_series):
 def readable_column_name(x, suffix):
     return f'{x[0:4]}_pres_{suffix}' if x.endswith('c') else f'{x[0:4]}_int_{suffix}'
 
-def aggregate_frames(time_series):
+def aggregate_frames(time_series, video_aggregates):
     columns = get_selected_columns(time_series)
 
     selected_features = time_series[columns]
     agg_mean = selected_features.aggregate(['mean'])
     agg_mean.rename(columns=lambda x: readable_column_name(x, 'mean'), inplace=True)
     
-    agg_runs = aggregate_feature_runs(time_series, columns)
+    agg_runs = aggregate_feature_runs(time_series, columns, video_aggregates)
     #pd.concat([aggregated_features, aggregated_row], ignore_index=True)
     
     return agg_runs
 
 
-def aggregate_feature_runs(time_series, columns):
+def aggregate_feature_runs(time_series, columns, video_aggregates):
     start_time = time_series['timestamp'][time_series.index[0]]
     end_time = time_series['timestamp'][time_series.index[-1]]
     fragment_duration = end_time - start_time
@@ -74,6 +74,11 @@ def aggregate_feature_runs(time_series, columns):
         
         std = fragment[column_name].std()
         data[readable_column_name(column_name, 'std')] = std
+        
+        video_mean = video_aggregates[column_name]['mean']
+        video_std = video_aggregates[column_name]['std']
+        zscore = (mean - video_mean) / video_std
+        data[readable_column_name(column_name, 'zscore')] = zscore
     
     return pd.DataFrame(data, index=[0])
     
