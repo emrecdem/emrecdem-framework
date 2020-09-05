@@ -18,7 +18,7 @@ def extract_fragment(time_series, start_time, end_time):
     return fragment
 
 
-selected_columns = ["AU01_r", "AU01_c", "AU04_r", "AU04_c", "AU09_r", "AU09_c", "AU10_r", "AU10_c", "AU12_r", "AU12_c", "AU14_r", "AU14_c"]
+selected_columns = ["AU01_r", "AU01_c", "AU04_r", "AU04_c", "AU09_r", "AU09_c", "AU10_r", "AU10_c", "AU12_r", "AU12_c", "AU14_r", "AU14_c", "AU15_r", "AU15_c"]
 
 def get_selected_columns(time_series):
     return [col for col in time_series if col in selected_columns]
