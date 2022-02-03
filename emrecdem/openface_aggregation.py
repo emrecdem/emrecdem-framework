@@ -84,7 +84,7 @@ def aggregate_feature_runs(time_series, columns, video_aggregates):
     
 
 def extract_runs_for_feature(df, feature, threshold_value, threshold_framecount):
-    threshold_filter = (df[feature] > threshold_value) & (df['silence'] == True)
+    threshold_filter = df[feature] > threshold_value
     first_rows = df.index[threshold_filter & ~ threshold_filter.shift(1).fillna(False)]
     last_rows = df.index[threshold_filter & ~ threshold_filter.shift(-1).fillna(False)]
     runs = [(i, j) for i, j in zip(first_rows, last_rows) if j > i + threshold_framecount]
